@@ -3,8 +3,8 @@ import Input from '../../components/UI/Input/Input';
 import {checkValidity} from '../../utils/validation';
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import * as ACTION_TYPES from '../../constants/actionTypes';
 import {AppContext} from '../../App.js';
-
 import {
   Form,
   Button,
@@ -113,12 +113,15 @@ const UserInfoPage = (porps) => {
   ))
 
   const saveFormValues = () => {
-    dispatch({ type: 'UPDATE_USER_DATA', data: {
+    dispatch({
+      type: ACTION_TYPES.UPDATE_USER_DATA,
+      data: {
         name: inputsData.name.value,
         surname: inputsData.surname.value,
         age: inputsData.age.value
-    },});
-};
+      }
+    });
+  };
 
   const onSubmit = () => {
     saveFormValues();
@@ -137,7 +140,8 @@ const UserInfoPage = (porps) => {
           {inputs}
           <Col md={6}>
             Hello {inputsData.name.value}
-            {inputsData.surname.value}!
+            {inputsData.surname.value}
+            !
           </Col>
           <Col>
             <Button type="submit">Save</Button>
@@ -146,7 +150,6 @@ const UserInfoPage = (porps) => {
         <Row></Row>
       </Jumbotron>
     </Container>
-
   )
 }
 

@@ -9,3 +9,5 @@ Podjęte decyzje, napotkane problemy i ich rozwiązania:
 3. Uznałem, że dodawanie Reduxa nie ma sensu w tym projekcie i stworzyłem własny state w App.js za pomocą Context API i hooka useReducer.
 
 4. Zdecydowałem się również na stworzenie lokalnej konfiguracji inputów i przeniesienie walidacji po za komponent UserInfoPage. Dzięki konfiguracji można bardzo łatwo rozeznać się jaka jest walidacja i jakie są dane dozwolone w poszczególnych inputach, a oprócz tego można bezpośrednio wyrenerować listę inputów.
+
+5. Zrobiłem state wpełni globlanym aby nawigacja również miała do niego dostęp.
