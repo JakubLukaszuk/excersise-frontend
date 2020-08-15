@@ -1,9 +1,14 @@
 import React from 'react'
 import NavBar from '../../components/Navigation/NavBar/NavBar';
 
-const MainLayout = () => {
+const MainLayout = (props) => {
     return (
-        <NavBar/>
+        <React.Fragment>
+            <NavBar/>
+            <div className>
+            {props.children}
+          </div>
+        </React.Fragment>
     )
 }
 

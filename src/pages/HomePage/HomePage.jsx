@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <Container>
       <Row>
-        <Col>HomePage</Col>
+        <Col>Welcome to React SPA</Col>
       </Row>
     </Container>
   )
