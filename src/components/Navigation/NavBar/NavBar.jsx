@@ -2,10 +2,10 @@ import React, {useContext} from 'react'
 import {Navbar, Nav} from 'react-bootstrap';
 import NaviItem from '../NavItem/NavItem';
 import * as ROUTES from '../../../constants/routes';
-import {AppContext} from '../../../App.js';
+import {UserContext} from '../../../App.js';
 
 const NavBar = () => {
-  const {state, dispatch} = useContext(AppContext);
+  const {state} = useContext(UserContext);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>

@@ -3,8 +3,8 @@ import Input from '../../components/UI/Input/Input';
 import {checkValidity} from '../../utils/validation';
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import * as ACTION_TYPES from '../../constants/actionTypes';
-import {AppContext} from '../../App.js';
+import * as USER_ACTION_TYPES from '../../constants/actionTypes/user';
+import {UserContext} from '../../App.js';
 import {
   Form,
   Button,
@@ -67,7 +67,7 @@ const INITIAL_INPUTS_STATE = {
 
 const UserInfoPage = (porps) => {
 
-  const {state, dispatch} = useContext(AppContext);
+  const {dispatch} = useContext(UserContext);
 
   const [inputsData,
     setInputsData] = useState(INITIAL_INPUTS_STATE);
@@ -114,7 +114,7 @@ const UserInfoPage = (porps) => {
 
   const saveFormValues = () => {
     dispatch({
-      type: ACTION_TYPES.UPDATE_USER_DATA,
+      type: USER_ACTION_TYPES.UPDATE_USER_DATA,
       data: {
         name: inputsData.name.value,
         surname: inputsData.surname.value,

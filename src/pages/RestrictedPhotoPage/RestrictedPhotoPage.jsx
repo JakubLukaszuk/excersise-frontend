@@ -1,21 +1,36 @@
 import React, {useState, useContext} from 'react';
-import {AppContext} from '../../App.js';
-import {
-  Button,
-  Col,
-  Row,
-  Container,
-} from 'react-bootstrap';
+import {UserContext} from '../../App.js';
+import {Button, Col, Row, Container, Image} from 'react-bootstrap';
+import {getImageAsync} from '../../data/service/imageService';
 
 const RestrictedPhotoPage = () => {
-  const {state, dispatch} = useContext(AppContext);
+  const {state: userState} = useContext(UserContext);
+  const [error, setError] = useState(null);
+  const [imgSource, setImgSource] = useState(null);
+
+  const showImageHandle = () => {
+    const blobImage = getImageAsync().catch(error =>{
+      setError(error);
+    })
+    if(!error)
+    {
+      blobImage.then(blob => {
+        const objectURL = window.URL.createObjectURL(blob);
+        setImgSource(objectURL);
+      })
+    }
+  }
+
   return (
     <Container>
       <Row>
-        <Col>{state.userData.name} {state.userData.surname}`s Page</Col>
+        <Col>{userState.userData.name} {userState.userData.surname}`s Page</Col>
       </Row>
+      <Col xs={6} md={4}>
+        <Image src={imgSource} rounded/>
+      </Col>
       <Row>
-        <Button/>
+        <Button onClick= {showImageHandle} active = {userState.isImageAllowed}/>
       </Row>
     </Container>
   )
