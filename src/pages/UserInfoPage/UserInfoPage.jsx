@@ -79,7 +79,7 @@ const VALIDATION_MESSAGES ={
 
 const UserInfoPage = (porps) => {
 
-  const {dispatch} = useContext(UserContext);
+  const {dispatch, state} = useContext(UserContext);
 
   const [inputsData,
     setInputsData] = useState(INITIAL_INPUTS_STATE);
@@ -195,9 +195,8 @@ const UserInfoPage = (porps) => {
         <Form onSubmit={onSubmit}>
           {inputs}
           <Col md={6}>
-            Hello {inputsData.name.value}
-            {inputsData.surname.value}
-            !
+          {state.userData.name && state.userData.surname ?
+             `Hello ${state.userData.name} ${state.userData.surname} !` : null}
           </Col>
           <Col>
             <Button type="submit">Save</Button>

@@ -19,7 +19,6 @@ const initialUserState = {
     age: null
   },
   isPageAllowed: false,
-  isImageAllowed: false
 };
 
 const userReducer = (state, action) => {
