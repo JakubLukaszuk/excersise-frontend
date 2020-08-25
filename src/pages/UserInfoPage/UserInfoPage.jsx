@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import Input from '../../components/UI/Input/Input';
-import {checkValidity, canBeValue, canBeName, IsInterger} from '../../utils/validation';
+import {checkValidity, canBeValue, canBeName, IsInteger} from '../../utils/validation';
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import * as USER_ACTION_TYPES from '../../constants/actionTypes/user';
@@ -109,7 +109,9 @@ const UserInfoPage = (porps) => {
       newInputs.surname.valid= false;
       validationState = false;
     }
-    if(!IsInterger(inputsData.age.value))
+    const numericAge = Number(inputsData.age.value);
+
+   if(!IsInteger(numericAge) || numericAge > 150 || numericAge <= 0)
     {
       newInputs.age.valid= false;
       validationState = false;
@@ -124,7 +126,6 @@ const UserInfoPage = (porps) => {
      inputsData[controlName].validation.minValue : false;
 
     const isNewValue = canBeValue(event.target.value, inputsData[controlName].validation.maxLength, minValOrFalse)
-    console.log(isNewValue);
     const updatedControls = {
       ...inputsData,
       [controlName]: {

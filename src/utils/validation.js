@@ -28,8 +28,8 @@ export const canBeValue = (value, maxLength, minValue) => {
     return (/[`%&!^#~<>;':"/[\]|{}()=_+-]/.test(val))
   }
 
-  const canBeDecimalValue = (val) =>{
-    if (IsInterger(val) && Number(val) >= minValue || val==="") {
+  const canBeIntergerValue = (val) =>{
+    if (IsInteger(Number(val)) >= minValue || val==="") {
       return true;
     }
     return false;
@@ -37,7 +37,7 @@ export const canBeValue = (value, maxLength, minValue) => {
   if(!isSpecialSings(value)){
     if (value.length <= maxLength) {
       if (minValue) {
-        return canBeDecimalValue(value);
+        return canBeIntergerValue(value);
       }
       return true;
     }
@@ -57,6 +57,6 @@ export const canBeName = (value) => {
   }
 }
 
-export const IsInterger = (value) => {
-  return Number(value) % 1 === 0;
+export const IsInteger = (value) => {
+  return typeof value ==='number' && (value%1)==0;
 }
