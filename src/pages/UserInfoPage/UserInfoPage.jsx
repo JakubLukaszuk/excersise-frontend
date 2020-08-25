@@ -1,17 +1,20 @@
 import React, {useState, useContext} from 'react';
 import Input from '../../components/UI/Input/Input';
-import {checkValidity} from '../../utils/validation';
+import {checkValidity, canBeValue, canBeName, IsInterger} from '../../utils/validation';
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import * as USER_ACTION_TYPES from '../../constants/actionTypes/user';
 import {UserContext} from '../../App.js';
+
 import {
   Form,
   Button,
   Col,
   Row,
   Container,
-  Jumbotron
+  Jumbotron,
+  Alert,
+  Badge
 } from 'react-bootstrap';
 
 const INITIAL_INPUTS_STATE = {
@@ -25,8 +28,8 @@ const INITIAL_INPUTS_STATE = {
     value: '',
     validation: {
       required: true,
-      minLength: 2,
-      maxLength: 24
+      minLength: 1,
+      maxLength: 50,
     },
     valid: false,
     toutched: false
@@ -41,8 +44,8 @@ const INITIAL_INPUTS_STATE = {
     value: '',
     validation: {
       required: true,
-      minLength: 2,
-      maxLength: 24
+      minLength: 1,
+      maxLength: 50,
     },
     valid: false,
     toutched: false
@@ -58,11 +61,20 @@ const INITIAL_INPUTS_STATE = {
     validation: {
       required: true,
       minLength: 1,
-      maxLength: 3
+      maxLength: 3,
+      minValue: 1,
+      maxValue: 150
     },
     valid: false,
     toutched: false
   }
+}
+
+const VALIDATION_MESSAGES ={
+  emptyFields: "All fileds must be filled",
+  surname: "Insert correct surname",
+  name: "Insert correct name",
+  age: "Age must be interger from 1 to 150",
 }
 
 const UserInfoPage = (porps) => {
@@ -72,16 +84,52 @@ const UserInfoPage = (porps) => {
   const [inputsData,
     setInputsData] = useState(INITIAL_INPUTS_STATE);
 
-  const isFormValid = () => {
-    //to do
+  const [valiidationMessage, setValidationMessage]= useState(null);
+
+
+  const validateForm = () => {
+    const newInputs ={...inputsData};
+    let validationState = true;
+
+    for(let key in inputsData)
+    {
+      if(!inputsData[key].value){
+        setValidationMessage(VALIDATION_MESSAGES.emptyFields);
+        validationState = false;
+        return validationState;
+      }
+    }
+    if(!canBeName(inputsData.name.value))
+    {
+      newInputs.name.valid= false;
+      validationState = false;
+    }
+    if(!canBeName(inputsData.surname.value))
+    {
+      newInputs.surname.valid= false;
+      validationState = false;
+    }
+    if(!IsInterger(inputsData.age.value))
+    {
+      newInputs.age.valid= false;
+      validationState = false;
+    }
+    setInputsData(newInputs);
+    return validationState;
   }
 
   const onChange = (event, controlName) => {
+    setValidationMessage(null);
+    const minValOrFalse = inputsData[controlName].validation.minValue ?
+     inputsData[controlName].validation.minValue : false;
+
+    const isNewValue = canBeValue(event.target.value, inputsData[controlName].validation.maxLength, minValOrFalse)
+    console.log(isNewValue);
     const updatedControls = {
       ...inputsData,
       [controlName]: {
         ...inputsData[controlName],
-        value: event.target.value,
+        value: isNewValue ? event.target.value : inputsData[controlName].value,
         valid: checkValidity(event.target.value, inputsData[controlName].validation),
         toutched: true
       }
@@ -93,6 +141,7 @@ const UserInfoPage = (porps) => {
   for (let key in inputsData) {
     formElementsArray.push({id: key, config: inputsData[key]})
   }
+
 
   let inputs = formElementsArray.map(formElement => (
     <Form.Group as={Row} key={formElement.id}>
@@ -107,8 +156,10 @@ const UserInfoPage = (porps) => {
           invalid={!formElement.config.valid}
           toutched={formElement.config.toutched}
           changed={(event) => onChange(event, formElement.id)}/>
+          {!formElement.config.valid && formElement.config.toutched
+            ? <Badge variant="danger">{VALIDATION_MESSAGES[formElement.id]}</Badge> : null}
       </Col>
-      <Col sm={2}></Col>
+      <Col sm={2}> <Alert variant= {formElement.config.valid || !formElement.config.toutched ? 'success' : 'danger'}/></Col>
     </Form.Group>
   ))
 
@@ -123,11 +174,15 @@ const UserInfoPage = (porps) => {
     });
   };
 
-  const onSubmit = () => {
-    saveFormValues();
-    porps
-      .history
-      .push(ROUTES.RESTRICTED_PHOTO);
+  const onSubmit = (event) => {
+    if(validateForm())
+    {
+      saveFormValues();
+      porps
+        .history
+        .push(ROUTES.RESTRICTED_PHOTO);
+    }
+    event.preventDefault();
   }
 
   return (
@@ -145,9 +200,9 @@ const UserInfoPage = (porps) => {
           </Col>
           <Col>
             <Button type="submit">Save</Button>
+            {valiidationMessage ? <Badge variant="danger">{valiidationMessage}</Badge> : null}
           </Col>
         </Form>
-        <Row></Row>
       </Jumbotron>
     </Container>
   )
