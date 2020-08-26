@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react';
 import {UserContext} from '../../App.js';
 import {getImageAsync} from '../../data/service/imageService';
 import * as ERROR_MESSAGES from '../../constants/errorMessages/api';
+import * as classes from './RestrictedPhotoPage.module.sass';
 import {Button, Col, Row, Container, Image, Spinner, Badge} from 'react-bootstrap';
 
 const RestrictedPhotoPage = () => {
@@ -12,8 +13,9 @@ const RestrictedPhotoPage = () => {
   const [isWarining, setIsWarining] = useState(false);
 
   const showImageHandle = () => {
-    if(userState.userData >= 18)
+    if(userState.userData.age >= 18)
     {
+      setIsWarining(false)
       setIsLoading(true);
       const blobImage = getImageAsync().catch(error =>{
         setIsLoading(false);
@@ -28,7 +30,10 @@ const RestrictedPhotoPage = () => {
           setIsLoading(false);
         })
     }
-    setIsWarining(true);
+    else
+    {
+      setIsWarining(true);
+    }
   }
 
   const getErrorMessage = (error) => {
@@ -56,18 +61,21 @@ const RestrictedPhotoPage = () => {
 
   return (
     <Container>
-      <Row>
-        <Col>{userState.userData.name} {userState.userData.surname}`s Page</Col>
+      <Row className="justify-content-center">
+        <Col md="auto" className={classes.elementSpacing}>{userState.userData.name} {userState.userData.surname}`s Page</Col>
       </Row>
-      <Row>
-        <Button onClick= {showImageHandle}>Accces</Button>
+      <Row className="justify-content-center">
+        <Button md="auto" className={classes.elementSpacing} onClick= {showImageHandle}>Accces</Button>
       </Row>
-      <Col xs={6} md={4}>
-      {isLoading ? <Spinner/> : imgSource && !isWarining ?
-        <Image src={imgSource} rounded fluid/> : error ? getErrorMessage(error) : null}
-        {isWarining ? <Badge variant="danger">You by at least 18 years old !</Badge> : null }
-    </Col>
-
+      <Row className="justify-content-center">
+        <Col md="auto">
+          <div className = {classes.imageWrapper}>
+            {isLoading ? <Spinner/> : imgSource && !isWarining ?
+              <Image className = {classes.secredImage} src={imgSource} rounded/> : error ? getErrorMessage(error) : null}
+            {isWarining ? <Badge variant="danger" className={classes.absoulteCenter}>You by at least 18 years old !</Badge> : null }
+          </div>
+        </Col>
+      </Row>
     </Container>
   )
 }

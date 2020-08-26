@@ -13,3 +13,5 @@ Podjęte decyzje, napotkane problemy i ich rozwiązania:
 5. Zrobiłem state wpełni globlanym aby nawigacja również miała do niego dostęp.
 
 6. Żeby wprowadzić warstwę serwisu wspomnianą w poleceniu zdecydowałem się na ponbranie obrazka za pomocą axiosa. Nie odrazu znalazłem w jaki sposób go wyświetlić.
+
+7. Przesto że zadanie robiłem w dużych odstępach czasu źle zapamiętałem sposób walidacji i będzie ona do poprawy w kolejnym commicie.

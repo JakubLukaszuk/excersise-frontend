@@ -4,6 +4,7 @@ import {checkValidity, canBeValue, canBeName, IsInteger} from '../../utils/valid
 import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import * as USER_ACTION_TYPES from '../../constants/actionTypes/user';
+import * as classes from './UserInfoPage.module.sass';
 import {UserContext} from '../../App.js';
 
 import {
@@ -146,10 +147,10 @@ const UserInfoPage = (porps) => {
 
   let inputs = formElementsArray.map(formElement => (
     <Form.Group as={Row} key={formElement.id}>
-      <Form.Label column sm={2}>
+      <Form.Label column sm={1}>
         {formElement.config.label}
       </Form.Label>
-      <Col sm={8}>
+      <Col sm={9}>
         <Input
           elementType={formElement.config.elementType}
           elementConfig={formElement.config.elemetConfig}
@@ -160,7 +161,7 @@ const UserInfoPage = (porps) => {
           {!formElement.config.valid && formElement.config.toutched
             ? <Badge variant="danger">{VALIDATION_MESSAGES[formElement.id]}</Badge> : null}
       </Col>
-      <Col sm={2}> <Alert variant= {formElement.config.valid || !formElement.config.toutched ? 'success' : 'danger'}/></Col>
+      <Col sm={2}> <Alert className={classes.alertBar} variant= {formElement.config.valid || !formElement.config.toutched ? 'success' : 'danger'}/></Col>
     </Form.Group>
   ))
 
@@ -189,19 +190,29 @@ const UserInfoPage = (porps) => {
   return (
     <Container>
       <Row>
-        <Col>User Data</Col>
+        <Col className={classes.spacing}>User Data</Col>
       </Row>
       <Jumbotron>
         <Form onSubmit={onSubmit}>
           {inputs}
-          <Col md={6}>
-          {state.userData.name && state.userData.surname ?
-             `Hello ${state.userData.name} ${state.userData.surname} !` : null}
+          <Row className="justify-content-center">
+            <Col md="auto" className={classes.spacing}>
+            {state.userData.name && state.userData.surname ?
+              `Hello ${state.userData.name} ${state.userData.surname} !` : null}
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md="auto">
+              <Button type="submit">Save</Button>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col md="auto">
+              {valiidationMessage ?
+                <Badge variant="danger" className={classes.spacing}>{valiidationMessage}</Badge>
+              : null}
           </Col>
-          <Col>
-            <Button type="submit">Save</Button>
-            {valiidationMessage ? <Badge variant="danger">{valiidationMessage}</Badge> : null}
-          </Col>
+        </Row>
         </Form>
       </Jumbotron>
     </Container>
