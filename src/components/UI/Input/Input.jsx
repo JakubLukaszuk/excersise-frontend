@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from './Input.Sass';
 import {
     Form,
   } from 'react-bootstrap';

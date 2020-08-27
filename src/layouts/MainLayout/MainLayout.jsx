@@ -1,5 +1,8 @@
 import React from 'react'
 import NavBar from '../../components/Navigation/NavBar/NavBar';
+import {
+  Container,
+} from 'react-bootstrap';
 
 const MainLayout = (props) => {
   return (

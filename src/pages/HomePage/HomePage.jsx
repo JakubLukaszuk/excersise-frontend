@@ -1,13 +1,13 @@
-import React from 'react'
-import {Container, Row, Col} from 'react-bootstrap';
+import React from 'react';
+import classes from './HomePage.module.sass';
 
 const HomePage = () => {
   return (
-    <Container>
-      <Row>
-        <Col>Welcome to React SPA</Col>
-      </Row>
-    </Container>
+    <div className={classes.container}>
+      <h2>
+        Welcome to React Spa!
+      </h2>
+    </div>
   )
 }
 

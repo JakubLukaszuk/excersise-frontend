@@ -1,3 +1,5 @@
+import XRegExp from 'xregexp';
+
 export const checkValidity = (value, rules) => {
   let validity = true;
 
@@ -22,41 +24,50 @@ export const checkValidity = (value, rules) => {
   return validity;
 }
 
+const isLetterOrEmpty = (val) => {
+  return (/^[a-zA-Z]*$/.test(val))
+}
+
 export const canBeValue = (value, maxLength, minValue) => {
 
-  const isSpecialSings = (val)=>{
-    return (/[`%&!^#~<>;':"/[\]|{}()=_+-]/.test(val))
+  const isSpecialSings = (val) => {
+    return (/[`%&!^#~<>;':"/[\]|{}()=_+-e]/.test(val))
   }
 
-  const canBeIntergerValue = (val) =>{
-    if (IsInteger(Number(val)) >= minValue || val==="") {
-      return true;
+  const canBeIntergerValue = (val) => {
+    if (isSpecialSings(val)) {
+      if (IsInteger(Number(val)) >= minValue || val === "") {
+        return true;
+      }
     }
     return false;
   }
-  if(!isSpecialSings(value)){
-    if (value.length <= maxLength) {
-      if (minValue) {
-        return canBeIntergerValue(value);
-      }
+  // if(!isSpecialSings(value)){
+  if (value.length <= maxLength) {
+    if (minValue) {
+      return canBeIntergerValue(value);
+    }
+    return isLetterOrEmpty(value)
+  }
+  // }
+  return false;
+}
+
+export const canBeName = (value) => {
+  if (isLetterOrEmpty(value)) {
+    const name = value
+      .replace(/^\s+/, "")
+      .replace(/\s+$/, "")
+      .replace(/\s+/, " ")
+    if (name == "") {
+      return false;
+    } else {
       return true;
     }
   }
   return false;
 }
 
-export const canBeName = (value) => {
-  const name = value
-    .replace(/^\s+/, "")
-    .replace(/\s+$/, "")
-    .replace(/\s+/, " ")
-  if (name == "") {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 export const IsInteger = (value) => {
-  return typeof value ==='number' && (value%1)==0;
+  return typeof value === 'number' && (value % 1) == 0;
 }

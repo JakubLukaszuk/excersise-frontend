@@ -1,0 +1,34 @@
+
+.container
+	position: relative
+	width: 100%
+	height: calc( 100vh - 50px )
+	margin: 0 auto
+	overflow: hidden
+	&::after
+		content: ''
+		position: absolute
+		background-color: #3e7ac7
+		padding-bottom: 120%
+		width: 100%
+		bottom: 0
+		left: 0
+		transform: rotate(70.5deg)
+		transform-origin: left bottom
+	&::before
+		content: ''
+		position: absolute
+		background-color: #dddddd
+		padding-bottom: 200%
+		width: 100%
+		bottom: 0
+		left: 0
+		transform: rotate(35.5deg)
+		transform-origin: left bottom
+
+h2
+    transform: translate(-50%, -50%)
+    position: absolute
+    font-weight: bold
+    top: 50%
+    left: 50%
