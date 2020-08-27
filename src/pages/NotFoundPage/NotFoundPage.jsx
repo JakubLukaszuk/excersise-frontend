@@ -1,9 +1,10 @@
 import React from 'react'
+import classes from './NotFoundPage.module.sass';
 
 const NotFoundPage = () => {
     return (
-        <div>
-            404 Not found
+        <div className = {classes.center}>
+            404 Page Not found
         </div>
     )
 }

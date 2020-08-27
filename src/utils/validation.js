@@ -1,4 +1,3 @@
-import XRegExp from 'xregexp';
 
 export const checkValidity = (value, rules) => {
   let validity = true;
@@ -59,7 +58,7 @@ export const canBeName = (value) => {
       .replace(/^\s+/, "")
       .replace(/\s+$/, "")
       .replace(/\s+/, " ")
-    if (name == "") {
+    if (name === "") {
       return false;
     } else {
       return true;
@@ -69,5 +68,5 @@ export const canBeName = (value) => {
 }
 
 export const IsInteger = (value) => {
-  return typeof value === 'number' && (value % 1) == 0;
+  return typeof value === 'number' && (value % 1) === 0;
 }
